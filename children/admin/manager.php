@@ -3,6 +3,11 @@ $o = new PDO("mysql:host=localhost;dbname=banhang", 'root', '');
 $o->query("set names utf8");
 $stm = $o->query("select * from sanpham");
 $data = $stm->fetchAll();
+
+$ma = isset($_GET['m']) ? $_GET['m'] : '';
+$sql = "delete from sanpham where masp = ?";
+$stm = $o->prepare($sql);
+$stm->execute(array($ma));
 ?>
 <table class="table">
     <thead>
@@ -11,7 +16,7 @@ $data = $stm->fetchAll();
             <th scope="col">Tên SP</th>
             <th scope="col">Loại</th>
             <th scope="col">Nhà cung cấp</th>
-            <th scope="col"></th>
+            <th scope="col"><a href="logout.php">Log out</a></th>
         </tr>
     </thead>
     <tbody>
@@ -22,7 +27,7 @@ $data = $stm->fetchAll();
                 <td><?php echo $value["tensp"] ?></td>
                 <td><?php echo $value["maloai"] ?></td>
                 <td><?php echo $value["mancc"] ?></td>
-                <td><a href="delete.php?m=<?php echo $value["masp"] ?>">Xóa</a></td>
+                <td><a href="admin.php?m=<?php echo $value["masp"] ?>">Xóa</a></td>
             </tr>
         <?php }
         ?>
@@ -42,6 +47,7 @@ $data = $stm->fetchAll();
 <!-- Tab panes -->
 <div class="tab-content">
     <div class="tab-pane container active" id="home">
+        <!-- Thêm -->
         <form action="admin.php" method="POST">
             <h3>Thêm sản phẩm</h3>
             <div class="form-row">
@@ -84,6 +90,7 @@ $data = $stm->fetchAll();
         </form>
     </div>
     <div class="tab-pane container fade" id="menu2">
+        <!-- Cập nhật -->
         <form action="update.php" method="POST">
             <h3>Cập nhật</h3>
             <div class="form-row">
@@ -126,12 +133,12 @@ $data = $stm->fetchAll();
         </form>
     </div>
 </div>
+<!-- Thêm -->
 <?php
 $masp = isset($_POST["inputMa"]) ? $_POST["inputMa"] : "";
 $tensp = isset($_POST["inputTen"]) ? $_POST["inputTen"] : "";
 $mota = isset($_POST["inputMota"]) ? $_POST["inputMota"] : "";
 $gia = isset($_POST["inputGia"]) ? $_POST["inputGia"] : "";
-if ($gia == "") echo "Phải nhập giá!!!!!!!!!!";
 $hinh = isset($_POST["inputHinh"]) ? $_POST["inputHinh"] : "";
 $maloai = isset($_POST["inputMaloai"]) ? $_POST["inputMaloai"] : "";
 $mancc = isset($_POST["inputMancc"]) ? $_POST["inputMancc"] : "";
@@ -140,7 +147,7 @@ $stm = $o->prepare($sql);
 $arr = array($masp, $tensp, $mota, $gia, $hinh, $mancc, $maloai);
 $stm->execute($arr);
 $n = $stm->rowCount();
-echo "Đã thêm $n sản phẩm.";
-// echo "$masp,$tensp,$mota,$gia,$hinh,$maloai,$mancc";
-// echo "<pre> echo $sql ";
-// print_r($arr);
+if ($n >= 1) {
+    echo "Đã thêm $n sản phẩm.";
+}
+// End Thêm

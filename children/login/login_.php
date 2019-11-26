@@ -1,19 +1,19 @@
 <div class="container">
     <div class="login">
 
-        <form action="">
+        <form action="login.php" method="POST">
             <div class="col-md-6 login-do">
                 <div class="login-mail">
-                    <input type="text" placeholder="Email" required="">
+                    <input name="email" type="text" placeholder="Enter your email">
                     <i class="glyphicon glyphicon-envelope"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="password" placeholder="Password" required="">
+                    <input name="password" type="password" placeholder="Enter your Password">
                     <i class="glyphicon glyphicon-lock"></i>
                 </div>
-                <a class="news-letter " href="#">
-                    <label class="checkbox1"><input type="checkbox" name="checkbox"><i> </i>Forget Password</label>
-                </a>
+                <?php if (!empty($message)) : ?>
+                    <p style="color:red"> <?= $message ?></p>
+                <?php endif; ?>
                 <label class="hvr-skew-backward">
                     <input type="submit" value="login">
                 </label>
