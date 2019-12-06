@@ -1,5 +1,5 @@
 <?php
-$o = new PDO("mysql:host=localhost;dbname=banhang", 'root', '');
+$o = new PDO("mysql:host=localhost;dbname=clothes", 'root', '');
 $o->query("set names utf8");
 $stm = $o->query("select * from sanpham");
 $data = $stm->fetchAll();
@@ -25,7 +25,8 @@ $data = $stm->fetchAll();
 										<h6><a href="single.html"><?php echo $value["tensp"] ?></a></h6>
 									</div>
 									<div class="img item_add">
-										<a href="#"><img src="images/ca.png" alt=""></a>
+										<a href="checkout.php?m=<?php echo $value["masp"] ?>"><img src="images/ca.png" alt=""></a>
+
 									</div>
 									<div class="clearfix"></div>
 								</div>

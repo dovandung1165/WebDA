@@ -1,9 +1,9 @@
 <?php
-$o = new PDO("mysql:host=localhost;dbname=banhang", 'root', '');
+$o = new PDO("mysql:host=localhost;dbname=clothes", 'root', '');
 $o->query("set names utf8");
 $stm1 = $o->query("select * from sanpham limit 0,4");
 $data1 = $stm1->fetchAll();
-$stm2 = $o->query("select * from sanpham limit 0,4");
+$stm2 = $o->query("select * from sanpham limit 4,8");
 $data2 = $stm2->fetchAll();
 ?>
 

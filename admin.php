@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html>
 <?php include "./children/head.php" ?>
+<?php
+session_start();
+
+if (!isset($_SESSION['user'])) {
+    header('Location: /login.php');
+}
+?>
 
 <body>
     <!--header-->
     <div class="header">
         <?php include "./children/header.php" ?>
-
-        <?php include "./children/container.php" ?>
+        <div style="height: 80px"></div>
     </div>
     <!--content-->
     <?php include "./children/admin/manager.php" ?>

@@ -1,5 +1,5 @@
 <?php
-$o = new PDO("mysql:host=localhost;dbname=banhang", 'root', '');
+$o = new PDO("mysql:host=localhost;dbname=clothes", 'root', '');
 $o->query("set names utf8");
 $stm = $o->query("select * from sanpham");
 $data = $stm->fetchAll();
@@ -86,6 +86,16 @@ $stm->execute(array($ma));
                     <input name="inputMancc" type="text" class="form-control" id="inputMancc" placeholder="Mã nhà cung cấp">
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputSize">Size</label>
+                    <input name="inputSize" type="text" class="form-control" id="inputSize" placeholder="Size">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputMau">Màu</label>
+                    <input name="inputMau" type="text" class="form-control" id="inputMau" placeholder="Màu">
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Lưu</button>
         </form>
     </div>
@@ -129,6 +139,16 @@ $stm->execute(array($ma));
                     <input name="uMancc" type="text" class="form-control" id="inputMancc" placeholder="Mã nhà cung cấp">
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputSize">Size</label>
+                    <input name="inputSize" type="text" class="form-control" id="inputSize" placeholder="Size">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputMau">Màu</label>
+                    <input name="inputMau" type="text" class="form-control" id="inputMau" placeholder="Màu">
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Cập nhật</button>
         </form>
     </div>
@@ -142,9 +162,15 @@ $gia = isset($_POST["inputGia"]) ? $_POST["inputGia"] : "";
 $hinh = isset($_POST["inputHinh"]) ? $_POST["inputHinh"] : "";
 $maloai = isset($_POST["inputMaloai"]) ? $_POST["inputMaloai"] : "";
 $mancc = isset($_POST["inputMancc"]) ? $_POST["inputMancc"] : "";
+$size = isset($_POST["inputSize"]) ? $_POST["inputSize"] : "";
+$color = isset($_POST["inputMau"]) ? $_POST["inputMau"] : "";
 $sql = "insert into sanpham (masp,tensp,mota,gia,hinh,mancc,maloai) values (?,?,?,?,?,?,?)";
+$sqlVariant = "insert into variant (size,color,masp) values (?,?,?)";
 $stm = $o->prepare($sql);
 $arr = array($masp, $tensp, $mota, $gia, $hinh, $mancc, $maloai);
+$stmVariant = $o->prepare($sqlVariant);
+$arrVariant = array($size, $color, $masp);
+$stmVariant->execute($arrVariant);
 $stm->execute($arr);
 $n = $stm->rowCount();
 if ($n >= 1) {
