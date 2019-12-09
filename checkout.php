@@ -7,6 +7,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE html>
 <html>
 <?php include "./children/head.php" ?>
+<?php
+
+if (!isset($_SESSION)) session_start();
+?>
 <!---//End-rate---->
 </head>
 
@@ -19,7 +23,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!--banner-->
 	<?php include "./children/checkout/banner.php" ?>
 	<!--login-->
-	<?php include "./children/checkout/login.php" ?>
+	<?php include "./children/checkout/login_checkout.php" ?>
 
 	<!--//login-->
 	<!--brand-->

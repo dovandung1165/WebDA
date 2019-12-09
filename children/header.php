@@ -12,7 +12,7 @@
                     <li><a href="login.php">Login</a></li>
                     <li><a href="register.php">Register</a></li>
                     <li><a href="checkout.php">Checkout</a></li>
-                    <li><a href="admin.php">Admin</a></li>
+                    <li><a href="administrator.php">Admin</a></li>
                 </ul>
             </div>
 

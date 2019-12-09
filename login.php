@@ -5,7 +5,7 @@
 
 session_start();
 if (isset($_SESSION['user'])) {
-    header('Location: /admin.php');
+    header('Location: /administrator.php');
 }
 
 require 'database.php';
@@ -19,7 +19,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
     if (password_verify($_POST['password'], $results['password'])) {
         $_SESSION['user'] = $results['email'];
-        header("Location: /admin.php");
+        header("Location: /administrator.php");
     } else {
         $message = 'Sorry, those credentials do not match';
     }

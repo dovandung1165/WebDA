@@ -25,7 +25,7 @@ $data = $stm->fetchAll();
 										<h6><a href="single.html"><?php echo $value["tensp"] ?></a></h6>
 									</div>
 									<div class="img item_add">
-										<a href="checkout.php?m=<?php echo $value["masp"] ?>"><img src="images/ca.png" alt=""></a>
+										<a href="cart.php?m=<?php echo $value["masp"] ?>"><img src="images/ca.png" alt=""></a>
 
 									</div>
 									<div class="clearfix"></div>
