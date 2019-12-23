@@ -1,5 +1,6 @@
 <?php
-session_start();
+ob_start();
+if(!session_start()) session_start();
 $totalPrices = 0;
 if (!isset($_SESSION['userG'])) {
     header('Location: /login.php');
@@ -49,3 +50,4 @@ if (!isset($_SESSION['userG'])) {
         header("Location: checkout.php");
     }
 }
+ob_end_flush();

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $totalPrices = 0;
 $gh = isset($_SESSION['gh']) ? $_SESSION['gh'] : array();
 
@@ -99,3 +100,4 @@ else {
         <a href="product.php" class="hvr-skew-backward">Back to product page</a>
     </div>
     </div>
+    <?php ob_end_flush(); ?>
