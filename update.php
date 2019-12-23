@@ -1,5 +1,5 @@
 <?php
-$o = new PDO("mysql:host=localhost;dbname=clothes", "root", "");
+$o = new PDO("mysql:host=localhost;dbname=id11045465_clothes", 'id11045465_root', 'Sunflower');
 $o->query("set names utf8");
 $sql2 = "select masp from sanpham";
 $fetch = $o->query($sql2);
@@ -31,7 +31,7 @@ foreach ($data as $key => $value) {
     }
 }
 if ($flag == false) {
-    echo "Mã sản phẩm không tồn tại!!!</br>";
-} else echo "Đã cập nhật $n sản phẩm.</br>";
+    echo "Code product not found!!!</br>";
+} else echo "Updated $n product.</br>";
 ?>
-<a href="admin.php"> Quay lại trang admin </a>
+<a href="administrator.php"> Back to administrator page </a>

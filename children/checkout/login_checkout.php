@@ -1,26 +1,19 @@
 <?php
+$totalPrices = 0;
 $gh = isset($_SESSION['gh']) ? $_SESSION['gh'] : array();
-echo print_r($gh);
 
-// $arrMasp = array();
-// foreach ($gh as $key => $value) {
-//     array_push($arrMasp, $key);
-// }
-// echo print_r($arrMasp);
-
-if (count($gh) == 0) echo "Giỏ hàng rỗng";
+if (count($gh) == 0) return;
 else {
-    $o = new PDO("mysql:host=localhost;dbname=clothes", 'root', '');
+    $o = new PDO("mysql:host=localhost;dbname=id11045465_clothes", 'id11045465_root', 'Sunflower');
     $o->query("set names utf8");
-    $sql = "select * from sanpham where masp = :masp";
+    $dataProduct = array();
     foreach ($gh as $key => $value) {
-        $stm = $o->prepare($sql);
-        $stm->bindParam(':masp', $key);
-        $data = $stm->execute();
-        if ($data) echo "supppppp";
-        echo $key;
+        $sql =  "select * from sanpham where masp = '$key'";
+        $stm = $o->query($sql);
+        $data = $stm->fetch(PDO::FETCH_ASSOC);
+        array_push($dataProduct, $data);
     }
-    echo "data", print_r($data);
+    $countCheckOut = 0;
 }
 ?>
 <script>
@@ -59,32 +52,50 @@ else {
                     <tr>
                         <th class="table-grid">Item</th>
                         <th>Code</th>
-                        <th>Prices</th>
-                        <th>Subtotal</th>
+                        <th>Count</th>
+                        <th>Price</th>
                     </tr>
-                    <?php foreach ($gh as $key => $value) {
-                        ?>
+                    <?php foreach ($dataProduct as $key => $value) {
+                    ?>
                         <tr class="cart-header">
-                            <td class="ring-in"><a href="single.php" class="at-in"><img src="images/ch.jpg" class="img-responsive" alt=""></a>
+                            <td class="ring-in"><a href="single.php" class="at-in"><img src="images/<?php echo $value['hinh'] ?>" class="img-responsive" alt=""></a>
                                 <div class="sed">
-                                    <h5><a href="single.html">Sed ut perspiciatis unde</a></h5>
-                                    <p>(At vero eos et accusamus et iusto odio dignissimos ducimus ) </p>
+                                    <h5><a href="single.php?m=<?php echo $value['masp'] ?>"><?php echo $value['tensp'] ?></a></h5>
+                                    <p><?php echo $value['mota'] ?> </p>
 
                                 </div>
                                 <div class="clearfix"> </div>
-                                <div class="close1"> </div>
                             </td>
-                            <td>$100.00</td>
-                            <td>FREE SHIPPING</td>
-                            <td class="item_price">$100.00</td>
-                            <td class="add-check"><a class="item_add hvr-skew-backward" href="#">Add To Cart</a></td>
-                        </tr>
-                    <?php } ?>
-                </table>
             </div>
+            </td>
+            <td><?php echo $value['masp'] ?></td>
+            <td><?php
+                                                                                                    foreach ($gh as $keygh => $valuegh) {
+                                                                                                        if ($keygh == $value['masp']) {
+                                                                                                            $totalPrices += ($value['gia'] * $valuegh);
+                                                                                                            echo $valuegh;
+                                                                                                            $gia = $value['gia'] * $valuegh;
+                                                                                                            $countCheckOut += $valuegh;
+                                                                                                        }
+                                                                                                    } ?></td>
+            <td class="item_price"><?php echo number_format($gia, 0, '.', '.') ?> VNĐ</td>
+            <td><a class="delItem" href="cart.php?m=<?php echo $value['masp'] ?>&ac=delete"> Delete </a></td>
         </div>
-        <div class="produced">
-            <a href="single.html" class="hvr-skew-backward">Produced To Buy</a>
+        </tr>
+    <?php } ?>
+    </table>
+    <div>Count: <?php echo $countCheckOut ?></div>
+    <div>Total Prices: <?php
+                                                                                                echo number_format($totalPrices, 0, ".", ".");
+                        ?> VNĐ</span>
+        <div>
         </div>
     </div>
-</div>
+    <div class="produced">
+        <a href="donhang.php?gh=<?php echo print_r($gh) ?> &total= <?php echo $totalPrices ?>" class="hvr-skew-backward">Buy</a>
+    </div>
+    <div style="height:30px"></div>
+    <div class="produced">
+        <a href="product.php" class="hvr-skew-backward">Back to product page</a>
+    </div>
+    </div>

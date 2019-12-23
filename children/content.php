@@ -1,5 +1,5 @@
 <?php
-$o = new PDO("mysql:host=localhost;dbname=clothes", 'root', '');
+$o = new PDO("mysql:host=localhost;dbname=id11045465_clothes", 'id11045465_root', 'Sunflower');
 $o->query("set names utf8");
 $stm1 = $o->query("select * from sanpham limit 0,4");
 $data1 = $stm1->fetchAll();
@@ -67,27 +67,27 @@ $data2 = $stm2->fetchAll();
 			<label class="line"></label>
 			<div class="mid-popular">
 				<?php foreach ($data1 as $key => $value) { ?>
-					<div class="col-md-3 item-grid simpleCart_shelfItem">
+					<div class="col-md-3 item-grid">
 						<div class=" mid-pop">
 							<div class="pro-img">
 								<img src="images/<?php echo $value["hinh"] ?>" class="img-responsive" alt="">
 								<div class="zoom-icon ">
 									<a class="picture" href="images/pc.jpg" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
-									<a href="single.html"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+									<a href="single.php?m=<?php echo $value["masp"] ?>"><i class="glyphicon glyphicon-menu-right icon"></i></a>
 								</div>
 							</div>
 							<div class="mid-1">
 								<div class="women">
 									<div class="women-top">
-										<h6><a href="single.html"><?php echo $value["tensp"] ?></a></h6>
+										<h6><a href="single.php?m=<?php echo $value["masp"] ?>"><?php echo $value["tensp"] ?></a></h6>
 									</div>
 									<div class="img item_add">
-										<a href="#"><img src="images/ca.png" alt=""></a>
+										<a id="itemAdd" href="cart.php?m=<?php echo $value["masp"] ?>"><img src="images/ca.png" alt=""></a>
 									</div>
 									<div class="clearfix"></div>
 								</div>
 								<div class="mid-2">
-									<p><em class="item_price"><?php echo number_format($value["gia"]) ?></em></p>
+									<p><em class="item_price"><?php echo number_format($value["gia"], 0, ".", ".") ?></em></p>
 									<div class="block">
 										<div class="starbox small ghosting"> </div>
 									</div>
@@ -103,13 +103,13 @@ $data2 = $stm2->fetchAll();
 			</div>
 			<div class="mid-popular">
 				<?php foreach ($data2 as $key => $value) { ?>
-					<div class="col-md-3 item-grid simpleCart_shelfItem">
+					<div class="col-md-3 item-grid">
 						<div class=" mid-pop">
 							<div class="pro-img">
 								<img src="images/<?php echo $value["hinh"] ?>" class="img-responsive" alt="">
 								<div class="zoom-icon ">
 									<a class="picture" href="images/pc.jpg" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
-									<a href="single.html"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+									<a href="single.php"><i class="glyphicon glyphicon-menu-right icon"></i></a>
 								</div>
 							</div>
 							<div class="mid-1">
@@ -118,7 +118,7 @@ $data2 = $stm2->fetchAll();
 										<h6><a href="single.html"><?php echo $value["tensp"] ?></a></h6>
 									</div>
 									<div class="img item_add">
-										<a href="#"><img src="images/ca.png" alt=""></a>
+										<a id="itemAdd" href="cart.php?m=<?php echo $value["masp"] ?>"><img src="images/ca.png" alt=""></a>
 									</div>
 									<div class="clearfix"></div>
 								</div>

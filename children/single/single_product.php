@@ -1,9 +1,18 @@
+<?php
+$masp = isset($_REQUEST['m']) ? $_REQUEST['m'] : " ";
+$o = new PDO("mysql:host=localhost;dbname=id11045465_clothes", 'id11045465_root', 'Sunflower');
+$o->query("set names utf8");
+$sql = "select * from sanpham where masp = '$masp'";
+$stm = $o->query($sql);
+$data = $stm->fetch(PDO::FETCH_ASSOC);
+?>
+
 <div class="col-md-9">
     <div class="col-md-5 grid">
         <div class="flexslider">
             <ul class="slides">
                 <li data-thumb="images/si.jpg">
-                    <div class="thumb-image"> <img src="images/si.jpg" data-imagezoom="true" class="img-responsive"> </div>
+                    <div class="thumb-image"> <img src="images/<?php echo $data['hinh'] ?>" data-imagezoom="true" class="img-responsive"> </div>
                 </li>
                 <li data-thumb="images/si1.jpg">
                     <div class="thumb-image"> <img src="images/si1.jpg" data-imagezoom="true" class="img-responsive"> </div>
@@ -16,15 +25,15 @@
     </div>
     <div class="col-md-7 single-top-in">
         <div class="span_2_of_a1 simpleCart_shelfItem">
-            <h3>Nam liber tempor cum</h3>
-            <p class="in-para"> There are many variations of passages of Lorem Ipsum.</p>
+            <h3><?php echo $data['tensp'] ?></h3>
+            <p class="in-para"> <?php echo $data['masp'] ?></p>
             <div class="price_single">
-                <span class="reducedfrom item_price">$140.00</span>
+                <span class="reducedfrom item_price"><?php echo number_format($data['gia'], 0, '.', '.') ?> VNĐ</span>
                 <a href="#">click for offer</a>
                 <div class="clearfix"></div>
             </div>
             <h4 class="quick">Quick Overview:</h4>
-            <p class="quick_desc"> Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; es</p>
+            <p class="quick_desc"><?php echo $data['mota'] ?></p>
             <div class="wish-list">
                 <ul>
                     <li class="wish"><a href="#"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>Add to Wishlist</a></li>
@@ -54,7 +63,7 @@
             </script>
             <!--quantity-->
 
-            <a href="#" class="add-to item_add hvr-skew-backward">Add to cart</a>
+            <a href="cart.php?m=<?php echo $data["masp"] ?>" class="add-to item_add hvr-skew-backward">Add to cart</a>
             <div class="clearfix"> </div>
         </div>
 

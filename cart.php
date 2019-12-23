@@ -19,13 +19,21 @@ if ($ac == 'add') //them vao mang $gh
 }
 if ($ac == 'delete') //xoa san pham khoi $gh
 {
+    // echo $ac;
+    // echo $_REQUEST['m'];
     unset($gh[$id]);
 }
-if ($ac == 'update') //update $gh
+if ($ac == 'deleteAll') //xoa het san pham khoi $gh
 {
-    //	print_r($_GET); exit;
-    if (isset($gh[$id])) $gh[$id] = $sl;
+    foreach ($gh as $key => $value) {
+        unset($gh[$key]);
+    }
 }
+// if ($ac == 'update') //update $gh
+// {
+// // print_r($_GET); exit;
+// if (isset($gh[$id])) $gh[$id] = $sl;
+// }
 //xong: cap nhat lai vao session
 $_SESSION['gh'] = $gh;
 // //chuyen den trang hien thi gio hang

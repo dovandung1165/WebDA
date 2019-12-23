@@ -7,13 +7,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE html>
 <html>
 <?php include "./children/head.php" ?>
-<?php
-
-if (!isset($_SESSION)) session_start();
-?>
 <!---//End-rate---->
 </head>
-
 <body>
 	<!--header-->
 	<div class="header">
@@ -26,6 +21,11 @@ if (!isset($_SESSION)) session_start();
 	<?php include "./children/checkout/login_checkout.php" ?>
 
 	<!--//login-->
+	<div id="message"></div>
+	</div>
+	<!-- <script type='text/javascript'>
+		document.querySelector("#message").innerHTML = "success";
+	</script> -->
 	<!--brand-->
 	<?php include "./children/checkout/brand.php" ?>
 	<!--//brand-->

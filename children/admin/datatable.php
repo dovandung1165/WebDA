@@ -1,12 +1,21 @@
 <?php
-$o = new PDO("mysql:host=localhost;dbname=clothes", 'root', '');
+$o = new PDO("mysql:host=localhost;dbname=id11045465_clothes", 'id11045465_root', 'Sunflower');
 $o->query("set names utf8");
 $stm = $o->query("select * from sanpham");
 $data = $stm->fetchAll();
 
-$ma = isset($_GET['m']) ? $_GET['m'] : '';
+$stmSelectVariant = $o->query("select * from variant");
+$dataVariant = $stmSelectVariant->fetchAll();
+
+$maV = isset($_REQUEST['v']) ? $_REQUEST['m'] : '';
+$ma = isset($_REQUEST['m']) ? $_REQUEST['v'] : '';
+$sqlDelVar = "delete from sanpham where masp = ?";
+$stmDelVar = $o->prepare($sqlDelVar);
+
+
 $sql = "delete from sanpham where masp = ?";
 $stm = $o->prepare($sql);
+$stmDelVar->execute(array($maV));
 $stm->execute(array($ma));
 ?>
 <div class="card mb-3">
@@ -22,29 +31,41 @@ $stm->execute(array($ma));
                         <th>Name</th>
                         <th>Type</th>
                         <th>Supplier</th>
+                        <th>Color</th>
+                        <th>Size</th>
+                        <th>Price</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Code</th>
+                    <th>Code</th>
                         <th>Name</th>
                         <th>Type</th>
                         <th>Supplier</th>
+                        <th>Color</th>
+                        <th>Size</th>
+                        <th>Price</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
                 <tbody>
                     <?php
-                    foreach ($data as $key => $value) { ?>
+                    foreach ($data as $key => $value) { 
+                        foreach($dataVariant as $keyV => $valueV){
+                            if($value["masp"] == $valueV["masp"]){
+                            ?>
                         <tr>
                             <th scope="row"><?php echo $value["masp"] ?></th>
                             <td><?php echo $value["tensp"] ?></td>
                             <td><?php echo $value["maloai"] ?></td>
                             <td><?php echo $value["mancc"] ?></td>
-                            <td><a href="administrator.php?m=<?php echo $value["masp"] ?>">Xóa</a></td>
+                            <td><?php echo $valueV["color"] ?></td>
+                            <td><?php echo $valueV["size"] ?></td>
+                            <td><?php echo number_format($value["gia"], 0, ".", ".") ?> VNĐ</td>
+                            <td><a href="administrator.php?m=<?php echo $value["masp"]?> &v=<?php echo $valueV["variant_id"] ?>">Xóa</a></td>
                         </tr>
-                    <?php }
+                    <?php }}}
                     ?>
                 </tbody>
             </table>
@@ -182,18 +203,21 @@ $maloai = isset($_POST["inputMaloai"]) ? $_POST["inputMaloai"] : "";
 $mancc = isset($_POST["inputMancc"]) ? $_POST["inputMancc"] : "";
 $size = isset($_POST["inputSize"]) ? $_POST["inputSize"] : "";
 $color = isset($_POST["inputMau"]) ? $_POST["inputMau"] : "";
-$sql = "insert into sanpham (masp,tensp,mota,gia,hinh,mancc,maloai) values (?,?,?,?,?,?,?)";
-$sqlVariant = "insert into variant (size,color,masp) values (?,?,?)";
-$stm = $o->prepare($sql);
-$arr = array($masp, $tensp, $mota, $gia, $hinh, $mancc, $maloai);
 
-$stmVariant = $o->prepare($sqlVariant);
+// echo "masp:", $masp, "tensp:", $tensp, "mota:", $mota, "loai:", $maloai, "mancc:", $mancc,"color:",$color,"size:", $size;
+
+$sqlInsertProduct = "insert into sanpham (masp,tensp,mota,hinh,mancc,maloai,gia) values (?,?,?,?,?,?,?)";
+$sqlInsertVariant = "insert into variant (size,color,masp) values (?,?,?)";
+
+$arr = array($masp, $tensp, $mota, $hinh, $mancc, $maloai, $gia);
+$stm = $o->prepare($sqlInsertProduct);
+
+$stmVariant = $o->prepare($sqlInsertVariant);
 $arrVariant = array($size, $color, $masp);
 
-$stmVariant->execute($arrVariant);
-
 $stm->execute($arr);
-$n = $stm->rowCount();
+$stmVariant->execute($arrVariant);
+$n = ($stm->rowCount() && $stmVariant->rowCount());
 if ($n >= 1) {
     echo "Đã thêm $n sản phẩm.";
 }

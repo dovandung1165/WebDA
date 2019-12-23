@@ -3,10 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th12 06, 2019 lúc 10:54 AM
+-- Thời gian đã tạo: Th12 18, 2019 lúc 09:42 AM
 -- Phiên bản máy phục vụ: 5.7.26
 -- Phiên bản PHP: 7.2.18
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -39,8 +38,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`email`, `password`) VALUES
-('admin1', '$2y$10$vE7FriuL7JQCq81djbKGW.G2uhz.60g2dLv9tCWr6HTJvr1TvSL.O'),
-('admin', '$2y$10$w27.E8/93bSP3baXglhYeOMq4cHpSecDBeDeRzOm1voqeb9q1kxNS');
+('me', '$2y$10$nIkwhYD9wYesA6ky5.Cv.us6JWCLJz5NcI5hyIFHYTBIquE1ygms2');
 
 -- --------------------------------------------------------
 
@@ -50,12 +48,20 @@ INSERT INTO `admin` (`email`, `password`) VALUES
 
 DROP TABLE IF EXISTS `chitiet_hoadon`;
 CREATE TABLE IF NOT EXISTS `chitiet_hoadon` (
-  `chitiet_id` int(4) NOT NULL,
   `soluong` int(11) NOT NULL,
   `variant_id` int(11) NOT NULL,
-  PRIMARY KEY (`chitiet_id`),
-  KEY `variant_id` (`variant_id`)
+  `hoadon_id` int(4) NOT NULL,
+  KEY `variant_id` (`variant_id`),
+  KEY `hoadon_id` (`hoadon_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `chitiet_hoadon`
+--
+
+INSERT INTO `chitiet_hoadon` (`soluong`, `variant_id`, `hoadon_id`) VALUES
+(1, 5, 34),
+(1, 2, 35);
 
 -- --------------------------------------------------------
 
@@ -87,12 +93,18 @@ DROP TABLE IF EXISTS `hoadon`;
 CREATE TABLE IF NOT EXISTS `hoadon` (
   `hoadon_id` int(4) NOT NULL AUTO_INCREMENT,
   `tongtien` double NOT NULL,
-  `chitiet_id` int(4) NOT NULL,
   `user_id` int(4) NOT NULL,
   PRIMARY KEY (`hoadon_id`),
-  KEY `user_id` (`user_id`),
-  KEY `chitiet_id` (`chitiet_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `hoadon`
+--
+
+INSERT INTO `hoadon` (`hoadon_id`, `tongtien`, `user_id`) VALUES
+(34, 349000, 3),
+(35, 449000, 3);
 
 -- --------------------------------------------------------
 
@@ -166,11 +178,10 @@ CREATE TABLE IF NOT EXISTS `sanpham` (
 
 INSERT INTO `sanpham` (`masp`, `tensp`, `mota`, `hinh`, `mancc`, `maloai`, `gia`) VALUES
 ('td05', 'Áo thun nữ', 'Áo thun nữ, thoải mái khi mặc.', 'pc1.jpg', 'ysl', 'ao', 349000),
-('td09', 'hommm', 's', 'pi.jpg', 'guc', 'quan', 987000),
+('td07', 'Áo sơ mi nam', 'Áo mơ mi kẻ sọc', 'pc2.jpg', 'guc', 'ao', 349000),
 ('th01', 'Áo sơ mi nữ caro', 'Họa tiết caro', 'pc3.jpg', 'ysl', 'ao', 340000),
 ('th02', 'Áo thun nam', 'Áo thun nam, có logo ở giữa áo.', 'pc4.jpg', 'ysl', 'ao', 449000),
 ('th03', 'Áo sơ mi caro sọc nhỏ.', 'Họa tiết caro sọc nhỏ.', 'pc7.jpg', 'ysl', 'ao', 549000),
-('th04', 'Áo sơ mi nữ caro 2', 'Áo sơ mi tay ngắn. Nữ', 'pc5.jpg', 'ysl', 'ao', 849000),
 ('th06', 'Áo sơ mi nam tay dài.', 'Áo mơ mi nam, tay dài, trẻ trung, năng động', 'pc6.jpg', 'ysl', 'ao', 649000);
 
 -- --------------------------------------------------------
@@ -208,7 +219,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(250) CHARACTER SET utf8 NOT NULL,
   `password` varchar(200) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Đang đổ dữ liệu cho bảng `user`
+--
+
+INSERT INTO `user` (`user_id`, `email`, `password`) VALUES
+(3, 'dungdo', '$2y$10$uhIeLX/R0LWwz043OQtH3us7SJiNlRbbl/Wfg2zx4MUd6sbQEzt4m');
 
 -- --------------------------------------------------------
 
@@ -223,10 +241,10 @@ CREATE TABLE IF NOT EXISTS `variant` (
   `color` varchar(20) NOT NULL,
   `masp` varchar(5) NOT NULL,
   PRIMARY KEY (`variant_id`),
-  KEY `masp` (`masp`),
-  KEY `size` (`size`),
-  KEY `color` (`color`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+  KEY `variant_ibfk_1` (`masp`),
+  KEY `variant_ibfk_2` (`size`),
+  KEY `variant_ibfk_3` (`color`)
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8;
 
 --
 -- Đang đổ dữ liệu cho bảng `variant`
@@ -236,22 +254,27 @@ INSERT INTO `variant` (`variant_id`, `size`, `color`, `masp`) VALUES
 (1, 'l', 'cam', 'th01'),
 (2, 'm', 'cam', 'th02'),
 (3, 's', 'cam', 'th03'),
-(4, 'xl', 'cam', 'th04'),
 (5, 'm', 'đỏ', 'td05'),
 (6, 's', 'cam', 'th06'),
 (8, 's', 'đỏ', 'th01'),
-(12, 'l', 'cam', 'td09');
+(139, 'm', 'đỏ', 'td07');
 
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
 
 --
+-- Các ràng buộc cho bảng `chitiet_hoadon`
+--
+ALTER TABLE `chitiet_hoadon`
+  ADD CONSTRAINT `chitiet_hoadon_ibfk_2` FOREIGN KEY (`variant_id`) REFERENCES `variant` (`variant_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `chitiet_hoadon_ibfk_3` FOREIGN KEY (`hoadon_id`) REFERENCES `hoadon` (`hoadon_id`) ON UPDATE CASCADE;
+
+--
 -- Các ràng buộc cho bảng `hoadon`
 --
 ALTER TABLE `hoadon`
-  ADD CONSTRAINT `hoadon_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `hoadon_ibfk_2` FOREIGN KEY (`chitiet_id`) REFERENCES `chitiet_hoadon` (`chitiet_id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `hoadon_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `sanpham`
@@ -264,9 +287,9 @@ ALTER TABLE `sanpham`
 -- Các ràng buộc cho bảng `variant`
 --
 ALTER TABLE `variant`
-  ADD CONSTRAINT `variant_ibfk_1` FOREIGN KEY (`masp`) REFERENCES `sanpham` (`masp`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `variant_ibfk_2` FOREIGN KEY (`size`) REFERENCES `sizes` (`size`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `variant_ibfk_3` FOREIGN KEY (`color`) REFERENCES `colors` (`color`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `variant_ibfk_1` FOREIGN KEY (`masp`) REFERENCES `sanpham` (`masp`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `variant_ibfk_2` FOREIGN KEY (`size`) REFERENCES `sizes` (`size`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `variant_ibfk_3` FOREIGN KEY (`color`) REFERENCES `colors` (`color`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

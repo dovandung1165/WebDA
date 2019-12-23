@@ -1,3 +1,6 @@
+    <?php
+    $userG = isset($_SESSION['userG']) ? $_SESSION['userG'] : " ";
+    ?>
     <div class="container">
         <div class="head">
             <div class=" logo">
@@ -13,6 +16,15 @@
                     <li><a href="register.php">Register</a></li>
                     <li><a href="checkout.php">Checkout</a></li>
                     <li><a href="administrator.php">Admin</a></li>
+                    <li id="dx" style="display: none; color: white"><a href="logout.php">Đăng xuất</a></li>
+                    <?php
+                    if ($userG != " ") {
+                    ?>
+                        <script>
+                            document.getElementById("dx").style.display = "block";
+                        </script>
+                    <?php  }
+                    ?>
                 </ul>
             </div>
 

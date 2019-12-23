@@ -7,6 +7,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE html>
 <html>
 <?php include "./children/head.php" ?>
+
 <!---//End-rate---->
 <link href="css/form.css" rel="stylesheet" type="text/css" media="all" />
 
